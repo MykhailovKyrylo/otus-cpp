@@ -5,3 +5,14 @@ add_library(version STATIC version/version.cpp)
 target_include_directories(version INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/version)
 
 target_compile_definitions(version PRIVATE PROJECT_VERSION_PATCH)
+
+# Tests
+
+add_executable(version_tests tests/version_tests.cpp)
+
+find_package(GTest REQUIRED)
+
+target_link_libraries(version_tests version GTest::GTest GTest::Main)
+
+enable_testing()
+add_test(version_tests version_tests)
