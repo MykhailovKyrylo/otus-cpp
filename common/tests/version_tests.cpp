@@ -2,6 +2,6 @@
 
 #include "version.h"
 
-TEST(version, basic_test){
+TEST(version, basic_test) {
     ASSERT_NE(version(), -1);
 }
