@@ -14,5 +14,9 @@ find_package(GTest REQUIRED)
 
 target_link_libraries(version_tests version GTest::GTest GTest::Main)
 
-enable_testing()
-add_test(version_tests version_tests)
+option(BUILD_TESTING "Whether to build tests" ON)
+
+if (BUILD_TESTING)
+  enable_testing()
+  add_test(version_tests version_tests)
+endif()
