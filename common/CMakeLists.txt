@@ -1,6 +1,7 @@
 # Common utils
 
-configure_file(version/version.h.in version/version.h)
+add_library(version STATIC version/version.cpp)
 
-add_library(version INTERFACE)
-target_include_directories(version INTERFACE ${CMAKE_CURRENT_BINARY_DIR}/version)
+target_include_directories(version INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/version)
+
+target_compile_definitions(version PRIVATE PROJECT_VERSION_PATCH)
