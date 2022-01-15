@@ -12,14 +12,9 @@ add_executable(version_tests tests/version_tests.cpp)
 
 find_package(GTest REQUIRED)
 if (NOT GTest_FOUND)
-  message(FATAL_ERROR "Cannot find Google Test Framework!")
-endif()
+    message(FATAL_ERROR "Cannot find Google Test Framework!")
+endif ()
 
 target_link_libraries(version_tests version GTest::GTest GTest::Main)
 
-option(BUILD_TESTING "Whether to build tests" ON)
-
-if (BUILD_TESTING)
-  enable_testing()
-  add_test(version_tests version_tests)
-endif()
+add_test(version_tests version_tests)
