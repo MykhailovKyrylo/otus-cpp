@@ -1,14 +1,15 @@
 #include <iostream>
+#include <fstream>
 
 #include "ip_parser.h"
 
-int main(int /*argc*/, char** /*argv*/) {
+int Solution(std::istream& in = std::cin, std::ostream& out = std::cout) {
     std::vector<IP> ips;
 
-    if (auto result = GetIPsFromStream(std::cin); result.has_value()) {
+    if (auto result = GetIPsFromStream(in); result.has_value()) {
         ips = std::move(result.value());
     } else {
-        std::cerr << "Input is invalid" << std::endl;
+        out << "Input is invalid" << std::endl;
         return -1;
     }
 
@@ -16,9 +17,9 @@ int main(int /*argc*/, char** /*argv*/) {
         return lhs.bytes > rhs.bytes;
     });
 
-    auto print = [] (const std::vector<IP>& ips) {
+    auto print = [&out] (const std::vector<IP>& ips) {
         for (const auto& ip : ips) {
-            std::cout << ip << '\n';
+            out << ip << '\n';
         }
     };
 
@@ -31,7 +32,7 @@ int main(int /*argc*/, char** /*argv*/) {
             return ip.bytes[0] == 1;
         };
 
-        std::copy_if(filtered_ips.begin(), filtered_ips.end(), std::back_inserter(filtered_ips), filter);
+        std::copy_if(ips.begin(), ips.end(), std::back_inserter(filtered_ips), filter);
 
         print(filtered_ips);
     }
@@ -43,7 +44,7 @@ int main(int /*argc*/, char** /*argv*/) {
             return ip.bytes[0] == 46 && ip.bytes[1] == 70;
         };
 
-        std::copy_if(filtered_ips.begin(), filtered_ips.end(), std::back_inserter(filtered_ips), filter);
+        std::copy_if(ips.begin(), ips.end(), std::back_inserter(filtered_ips), filter);
 
         print(filtered_ips);
     }
@@ -55,10 +56,14 @@ int main(int /*argc*/, char** /*argv*/) {
             return std::any_of(ip.bytes.begin(), ip.bytes.end(), [] (uint8_t byte) { return byte == 46; });
         };
 
-        std::copy_if(filtered_ips.begin(), filtered_ips.end(), std::back_inserter(filtered_ips), filter);
+        std::copy_if(ips.begin(), ips.end(), std::back_inserter(filtered_ips), filter);
 
         print(filtered_ips);
     }
 
     return 0;
+}
+
+int main(int /*argc*/, char** /*argv*/) {
+    return Solution();
 }

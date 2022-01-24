@@ -4,6 +4,7 @@
 #include <limits>
 #include <algorithm>
 #include <utility>
+#include <iterator>
 
 #include "ip.h"
 
