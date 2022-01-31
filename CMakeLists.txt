@@ -13,6 +13,8 @@ if (BUILD_TESTING)
     enable_testing()
 endif ()
 
+add_subdirectory(3d-party)
+
 add_subdirectory(common)
 
 add_subdirectory(helloworld)

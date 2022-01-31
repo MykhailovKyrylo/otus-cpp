@@ -10,11 +10,6 @@ target_compile_definitions(version PRIVATE PROJECT_VERSION_PATCH)
 
 add_executable(version_tests tests/version_tests.cpp)
 
-find_package(GTest REQUIRED)
-if (NOT GTest_FOUND)
-    message(FATAL_ERROR "Cannot find Google Test Framework!")
-endif ()
-
-target_link_libraries(version_tests version GTest::GTest GTest::Main)
+target_link_libraries(version_tests version gtest gtest_main)
 
 add_test(version_tests version_tests)

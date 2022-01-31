@@ -19,11 +19,6 @@ install(TARGETS ip_filter_cli RUNTIME DESTINATION bin)
 
 add_executable(ip_parser_test tests/ip_parser_tests.cpp)
 
-find_package(GTest REQUIRED)
-if (NOT GTest_FOUND)
-    message(FATAL_ERROR "Cannot find Google Test Framework!")
-endif ()
-
-target_link_libraries(ip_parser_test ip_parser GTest::GTest GTest::Main)
+target_link_libraries(ip_parser_test ip_parser gtest gtest_main)
 
 add_test(ip_parser_test ip_parser_test)
