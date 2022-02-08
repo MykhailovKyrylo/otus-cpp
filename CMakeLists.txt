@@ -21,6 +21,8 @@ add_subdirectory(helloworld)
 
 add_subdirectory(ip-filter)
 
+add_subdirectory(custom-allocator)
+
 # DEB PACK
 set(CPACK_GENERATOR DEB)
 set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
