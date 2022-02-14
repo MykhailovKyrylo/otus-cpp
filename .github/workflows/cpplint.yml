@@ -10,4 +10,4 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
       - run: pip install cpplint
-      - run: cpplint --verbose=0 --quiet --exclude=cmake-build* --filter=-legal/copyright,-build/include_subdir --verbose=0 --linelength=120 --extensions=c++,cxx,h,c,cuh,h++,hh,cu,cpp,hpp,cc,hxx --recursive .
+      - run: cpplint --verbose=0 --quiet --exclude=cmake-build* --exclude=3d-party* --filter=-legal/copyright,-build/include_subdir --verbose=0 --linelength=120 --extensions=c++,cxx,h,c,cuh,h++,hh,cu,cpp,hpp,cc,hxx --recursive .
