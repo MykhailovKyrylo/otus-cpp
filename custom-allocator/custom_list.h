@@ -65,29 +65,28 @@ class CustomList {
         Node* next = begin_;
         while (next != nullptr) {
             Node* tmp = next->next;
-            allocator_.deallocate(next->data, 1);
-            delete next;
+            node_allocator_.deallocate(next, 1);
             next = tmp;
         }
     }
 
     void push(const_reference value) {
-        pointer p;
+        Node* node;
 
         try {
-            p = allocator_.allocate(1);
+            node = node_allocator_.allocate(1);
         } catch (const std::exception& e) {
             std::cerr << "raised an exception: " << e.what() << '\n';
             return;
         }
 
-        *p = value;
+        *node->data = value;
 
         if (begin_ == nullptr) {
-            begin_ = new Node(p);
+            begin_ = node;
             end_ = begin_;
         } else {
-            end_->next = new Node(p);
+            end_->next = node;
             end_ = end_->next;
         }
 
@@ -122,5 +121,7 @@ class CustomList {
     Node* begin_{nullptr};
     Node* end_{nullptr};
     size_t size_{0};
-    Allocator allocator_;
+
+    using NodeAllocator = typename Allocator::template rebind<Node>::other;
+    NodeAllocator node_allocator_;
 };
