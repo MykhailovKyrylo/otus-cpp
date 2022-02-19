@@ -103,6 +103,29 @@ class CustomList {
         size_++;
     }
 
+    void emplace(value_type&& value) {
+        Node* node;
+
+        try {
+            node = node_allocator_.allocate(1);
+        } catch (const std::exception& e) {
+            std::cerr << "raised an exception: " << e.what() << '\n';
+            return;
+        }
+
+        node_allocator_.construct(node, std::forward(value));
+
+        if (begin_ == nullptr) {
+            begin_ = node;
+            end_ = begin_;
+        } else {
+            end_->next = node;
+            end_ = end_->next;
+        }
+
+        size_++;
+    }
+
     Iterator begin() const {
         return Iterator(begin_);
     }
