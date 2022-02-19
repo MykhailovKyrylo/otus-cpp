@@ -17,18 +17,39 @@ class CustomList {
 
  private:
     struct Node {
+     public:
         explicit Node(value_type&& data_ref) {
-            *data = std::forward(data_ref);
+            try {
+                data = allocator_.allocate(1);
+            } catch (const std::exception& e) {
+                std::cerr << "raised an exception: " << e.what() << '\n';
+                return;
+            }
+
+            allocator_.construct(data, std::move(data_ref));
         }
 
         explicit Node(const_reference data_ref) {
-            *data = data_ref;
+            try {
+                data = allocator_.allocate(1);
+            } catch (const std::exception& e) {
+                std::cerr << "raised an exception: " << e.what() << '\n';
+                return;
+            }
+
+            allocator_.construct(data, data_ref);
         }
 
-        explicit Node(pointer data) : data(data) {}
+        ~Node() {
+            allocator_.destroy(data);
+            allocator_.deallocate(data, 1);
+        }
 
         pointer data{nullptr};
         Node* next{nullptr};
+
+     private:
+        Allocator allocator_;
     };
 
   class Iterator : public std::iterator<std::input_iterator_tag,
@@ -113,7 +134,7 @@ class CustomList {
             return;
         }
 
-        node_allocator_.construct(node, std::forward(value));
+        node_allocator_.construct(node, std::move(value));
 
         if (begin_ == nullptr) {
             begin_ = node;

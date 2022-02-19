@@ -34,4 +34,4 @@ add_executable(custom_list_tests tests/custom_list_tests.cpp)
 
 target_link_libraries(custom_list_tests custom_list_lib gtest gtest_main)
 
-add_test(custom_allocator_tests custom_allocator_tests)
+add_test(custom_list_tests custom_list_tests)
