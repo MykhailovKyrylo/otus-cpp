@@ -17,6 +17,14 @@ class CustomList {
 
  private:
     struct Node {
+        explicit Node(value_type&& data_ref) {
+            *data = std::forward(data_ref);
+        }
+
+        explicit Node(const_reference data_ref) {
+            *data = data_ref;
+        }
+
         explicit Node(pointer data) : data(data) {}
 
         pointer data{nullptr};
