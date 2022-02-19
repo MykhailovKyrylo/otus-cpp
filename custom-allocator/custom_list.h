@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <utility>
 
 template<typename T, class Allocator = std::allocator<T>>
 class CustomList {
@@ -17,6 +18,10 @@ class CustomList {
  private:
     struct Node {
         explicit Node(pointer data) : data(data) {}
+
+        explicit Node(value_type&& data_ref) {
+            *data = std::forward(data_ref);
+        }
 
         pointer data{nullptr};
         Node* next{nullptr};
@@ -65,9 +70,33 @@ class CustomList {
         Node* next = begin_;
         while (next != nullptr) {
             Node* tmp = next->next;
+            node_allocator_.destroy(next);
             node_allocator_.deallocate(next, 1);
             next = tmp;
         }
+    }
+
+    void push(value_type&& value) {
+        Node* node;
+
+        try {
+            node = node_allocator_.allocate(1);
+        } catch (const std::exception& e) {
+            std::cerr << "raised an exception: " << e.what() << '\n';
+            return;
+        }
+
+        node_allocator_.construct(node, std::forward(value));
+
+        if (begin_ == nullptr) {
+            begin_ = node;
+            end_ = begin_;
+        } else {
+            end_->next = node;
+            end_ = end_->next;
+        }
+
+        size_++;
     }
 
     void push(const_reference value) {
@@ -80,7 +109,7 @@ class CustomList {
             return;
         }
 
-        *node->data = value;
+        node_allocator_.construct(node, value);
 
         if (begin_ == nullptr) {
             begin_ = node;
