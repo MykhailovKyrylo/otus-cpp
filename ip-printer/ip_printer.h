@@ -8,8 +8,9 @@
 #include <iterator>
 #include <sstream>
 #include <tuple>
+#include <algorithm>
 
-namespace {
+namespace internal {  // should be deprecated for outside users
     template<class Tuple, size_t Idx>
     std::ostream& print_ip_impl([[maybe_unused]] Tuple tuple, std::ostream& out = std::cout) {
         out << '\n';
@@ -26,7 +27,7 @@ namespace {
         print_ip_impl<decltype(tuple), Idx + 1, Tail...>(tuple);
         return out;
     }
-}   // namespace - deprecated for outside users
+}  // namespace internal
 
 template<typename T, std::enable_if_t<std::is_integral_v<T>, bool> = true>
 std::ostream& print_ip(const T& number, std::ostream& out = std::cout) {
@@ -67,6 +68,6 @@ template<class Head,
          class... Args,
          typename = std::enable_if_t<std::conjunction_v<std::is_same<Head, Args>...>>>
 std::ostream& print_ip(std::tuple<Head, Args...> tuple, std::ostream& out = std::cout) {
-    print_ip_impl<decltype(tuple), 0, Head, Args...>(tuple);
+    internal::print_ip_impl<decltype(tuple), 0, Head, Args...>(tuple);
     return out;
 }
