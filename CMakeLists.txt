@@ -25,6 +25,8 @@ add_subdirectory(custom-allocator)
 
 add_subdirectory(ip-printer)
 
+add_subdirectory(vector-graphics-editor)
+
 # DEB PACK
 set(CPACK_GENERATOR DEB)
 set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
