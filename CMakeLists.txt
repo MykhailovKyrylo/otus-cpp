@@ -27,6 +27,8 @@ add_subdirectory(ip-printer)
 
 add_subdirectory(vector-graphics-editor)
 
+add_subdirectory(matrix)
+
 # DEB PACK
 set(CPACK_GENERATOR DEB)
 set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
